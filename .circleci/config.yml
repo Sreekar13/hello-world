@@ -22,6 +22,26 @@ jobs:
           echo "\< $ENGINEER_NAME	\>>"
           echo "/////////////////\\\\\\\\\\\\\\"
           echo $NAME
+  save_hello_world_output:
+    docker:
+      - image: circleci/node:13.8.0
+    steps:
+      - run: |
+          echo "Hello world!" > output.txt
+      - persist_to_workspace:
+          root: /tmp/output1/
+          paths:
+            - output.txt
+  print_output_file:
+    docker:
+      - image: circleci/node:13.8.0
+    steps:
+      - attach_workspace: 
+          at: /tmp/output1/
+      - run: |
+          ls -lrt
+          cat output.txt
+
 workflows:
   # Name the workflow "welcome"
   welcome:
@@ -32,3 +52,5 @@ workflows:
           requires: [print_hello]
       - print_name:
           requires: [print_hello, print_world]
+      - save_hello_world_output
+      - print_output_file
