@@ -29,7 +29,7 @@ jobs:
       - run: |
           echo "Hello world!" > output.txt
       - persist_to_workspace:
-          root: /tmp/output1/
+          root: /tmp
           paths:
             - output.txt
   print_output_file:
@@ -37,10 +37,10 @@ jobs:
       - image: circleci/node:13.8.0
     steps:
       - attach_workspace: 
-          at: /tmp/output1/
+          at: /tmp
       - run: |
           ls -lrt
-          cat output.txt
+          cat /tmp/output.txt
 
 workflows:
   # Name the workflow "welcome"
