@@ -67,7 +67,9 @@ jobs:
     <<: *node_exec
     steps:
       - run: return 1
-      - run: echo "Reporting an Error!"
+      - run:
+          name: Error handling
+          command: echo "Reporting an Error!"
           when: on_fail
 
 workflows:
@@ -84,3 +86,4 @@ workflows:
       - print_output_file:
           requires: [save_hello_world_output]
       - command_usage
+      - fail_scenario
