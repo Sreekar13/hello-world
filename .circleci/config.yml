@@ -66,7 +66,8 @@ jobs:
     <<: *node_exec
     steps:
       - run: return 1
-      - run: echo "Reporting an Error!"
+      - run: |
+          echo "Reporting an Error!"
           when: on_fail
 
 workflows:
