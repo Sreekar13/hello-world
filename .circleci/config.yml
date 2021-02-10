@@ -60,7 +60,7 @@ jobs:
   command_usage:
     <<: *node_exec
     steps:
-      - print_output_file
+      - print_pipeline_id
 
 
 
