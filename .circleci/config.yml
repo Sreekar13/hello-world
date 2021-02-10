@@ -36,7 +36,6 @@ jobs:
     steps:
       - run: |
           echo "\< $ENGINEER_NAME	\>>"
-          sudo docker build
           echo "/////////////////\\\\\\\\\\\\\\"
           echo $NAME
   save_hello_world_output:
