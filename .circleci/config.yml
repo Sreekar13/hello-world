@@ -62,7 +62,12 @@ jobs:
     steps:
       - print_pipeline_id
 
-
+  fail_scenario:
+    <<: *node_exec
+    steps:
+      - run: return 1
+      - run: echo "Reporting an Error!"
+          when: on_fail
 
 workflows:
   # Name the workflow "welcome"
