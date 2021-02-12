@@ -17,6 +17,9 @@ node_exec: &node_exec
   docker: 
     - image: circleci/node:13.8.0
 
+orbs:
+  aws-cli: circleci/aws-cli@1.4.0
+
 jobs:
   print_hello:
     docker:
@@ -62,6 +65,23 @@ jobs:
     steps:
       - print_pipeline_id
 
+  creating_inventory:
+    executor: aws-cli/default
+    steps:
+      - run: echo "[serve]" > inventory
+      - run: aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --output text >> inventory
+      - save_cache:
+          key: inventory_file
+          paths:
+            - inventory
+    
+  print_inventory:
+    <<: *node_exec
+    steps:
+      - restore_cache:
+          key: inventory_file
+      - run: cat inventory
+
   fail_scenario:
     <<: *node_exec
     steps:
@@ -86,3 +106,6 @@ workflows:
           requires: [save_hello_world_output]
       - command_usage
       - fail_scenario
+      - creating_inventory
+      - print_inventory:
+          requires: [creating_inventory]
