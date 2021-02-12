@@ -68,6 +68,8 @@ jobs:
   creating_inventory:
     executor: aws-cli/default
     steps:
+      - aws-cli/setup:
+          profile-name: sree 
       - run: echo "[serve]" > inventory
       - run: aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --output text >> inventory
       - save_cache:
