@@ -1,0 +1,6 @@
+---
+- name: Exercise to deploy a web service on to ec2
+  hosts: web-server
+  user: ec2-user
+  roles:
+    - setup

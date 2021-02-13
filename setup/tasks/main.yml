@@ -1,0 +1,22 @@
+--- 
+- name: update yum repo
+  become: yes
+  yum:
+    name: '*'
+    state: latest
+
+- name: install node
+  shell: |
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
+    . ~/.nvm/nvm.sh
+    nvm install node
+
+- name: copy node js file
+  copy:
+    src: index.js
+    dest: /home/ec2-user/
+
+- name: run node js
+  shell: node /home/ec2-user/index.js > /dev/null 2>&1 &
+  async: 10
+  poll: 0
