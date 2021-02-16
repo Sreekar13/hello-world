@@ -68,7 +68,7 @@ jobs:
   fail_scenario:
     <<: *node_exec
     steps:
-      - run: return 1
+      - run: return 0
       - run:
           name: Error handling
           command: echo "Reporting an Error!"
