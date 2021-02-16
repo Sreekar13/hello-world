@@ -80,7 +80,7 @@ jobs:
     steps:
       - checkout 
       - run: aws cloudformation create-stack --stack-name circleciaws --region us-east-1 --template-body file://EC2Instance-clf-template.yml
-      - run: sleep 110
+      - run: sleep 70
       - run: echo "[serve]" > inventory
       - run: aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --output text >> inventory
       - save_cache:
@@ -125,4 +125,3 @@ workflows:
       - create_infrastructure
       - configure_ec2: 
           requires: [create_infrastructure]
-          
