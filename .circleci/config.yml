@@ -112,16 +112,6 @@ workflows:
   welcome:
     # Run the welcome/run job in its own container
     jobs:
-      - print_hello
-      - print_world:
-          requires: [print_hello]
-      - print_name:
-          requires: [print_world]
-      - save_hello_world_output
-      - print_output_file:
-          requires: [save_hello_world_output]
-      - command_usage
-      - fail_scenario
       - create_infrastructure
       - configure_ec2: 
           requires: [create_infrastructure]
