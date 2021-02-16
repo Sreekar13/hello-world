@@ -95,7 +95,7 @@ jobs:
 
   create_infrastructure:
     docker:
-      - amazon/aws-cli
+      - image: amazon/aws-cli
     steps:
       - checkout 
       - run: aws cloudformation create-stack --stack-name circleciaws --region us-east-1 --template-body file://EC2Instance-clf-template.yml
