@@ -93,6 +93,14 @@ jobs:
           command: echo "Reporting an Error!"
           when: on_fail
 
+  create_infrastructure:
+    docker:
+      - amazon/aws-cli
+    steps:
+      - checkout 
+      - run: aws cloudformation create-stack --stack-name circleciaws --region us-east-1 --template-body file://EC2Instance-clf-template.yml
+
+
 workflows:
   # Name the workflow "welcome"
   welcome:
@@ -111,3 +119,4 @@ workflows:
       - creating_inventory
       - print_inventory:
           requires: [creating_inventory]
+      - create_infrastructure
