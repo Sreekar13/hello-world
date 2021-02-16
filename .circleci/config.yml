@@ -84,9 +84,9 @@ jobs:
       - run: echo "[serve]" > inventory
       - run: aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --output text >> inventory
       - save_cache:
-          key: inventory_file
+          key: inventory
           paths:
-            - inventory
+            - inventory.txt
 
   configure_ec2:
     docker: 
@@ -94,7 +94,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: inventory_file
+          key: inventory
       - add_ssh_keys:
           fingerprints: 4e:be:10:2c:f9:ab:28:60:a3:fd:51:3b:06:78:ec:cd
       - run:
@@ -104,7 +104,7 @@ jobs:
       - run: 
           name: Configuring ec2 instance
           command: |
-            ansible-playbook -i inventory main-remote.yml
+            ansible-playbook -i inventory.txt main-remote.yml
 
 
 workflows:
