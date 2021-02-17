@@ -84,7 +84,7 @@ jobs:
       - run: echo "[serve]" > inventory
       - run: aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --output text >> inventory
       - save_cache:
-          key: inventory
+          key: inventory1
           paths:
             - inventory.txt
 
@@ -92,9 +92,10 @@ jobs:
     docker: 
       - image: python:3.7-alpine3.11
     steps:
+      - sleep 30
       - checkout
       - restore_cache:
-          key: inventory
+          key: inventory1
       - run: cat inventory.txt
       - add_ssh_keys:
           fingerprints: 4e:be:10:2c:f9:ab:28:60:a3:fd:51:3b:06:78:ec:cd
