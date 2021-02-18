@@ -101,7 +101,13 @@ jobs:
           fingerprints: 4e:be:10:2c:f9:ab:28:60:a3:fd:51:3b:06:78:ec:cd
       - run: |
           ec2_ip_address=`cat inventory_ec2.txt | head -2| tail -1` 
-          ssh -o StrictHostKeyChecking=no "ec2-user@ec2_ip_address"
+          #!/usr/bin/expect 
+          set prompt "#|>|\\\$"
+          spawn ssh ec2-user@$ec2_ip_address
+          expect {
+            "(yes/no)" { send "yes\r";exp_continue}
+          }
+          expect -re $prompt
       - run:
           name: Install ansible dependencies
           command: |
