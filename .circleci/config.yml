@@ -81,12 +81,12 @@ jobs:
       - checkout 
       - run: aws cloudformation create-stack --stack-name circleciaws --region us-east-1 --template-body file://EC2Instance-clf-template.yml
       - run: sleep 70
-      - run: echo "[serve]" > inventory_ec2_t.txt
-      - run: aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --output text >> inventory_ec2_t.txt
+      - run: echo "[serve]" > inventory_ec2_file.txt
+      - run: aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --output text >> inventory_ec2_file.txt
       - save_cache:
-          key: inventory_ec2_v1.11
+          key: inventory_ec2_v1.12
           paths:
-            - inventory_ec2_t.txt
+            - inventory_ec2_file.txt
 
   configure_ec2:
     docker: 
@@ -95,8 +95,8 @@ jobs:
       - run: sleep 30
       - checkout
       - restore_cache:
-          key: inventory_ec2_v1.11
-      - run: cat inventory_ec2_t.txt
+          key: inventory_ec2_v1.12
+      - run: cat inventory_ec2_file.txt
       - add_ssh_keys:
           fingerprints: 4e:be:10:2c:f9:ab:28:60:a3:fd:51:3b:06:78:ec:cd
       #- run: |
@@ -115,7 +115,7 @@ jobs:
       - run: 
           name: Configuring ec2 instance
           command: |
-            ansible-playbook -i inventory_ec2_t.txt main-remote.yml
+            ansible-playbook -i inventory_ec2_file.txt main-remote.yml
 
 
 workflows:
