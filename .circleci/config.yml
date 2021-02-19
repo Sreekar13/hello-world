@@ -142,7 +142,7 @@ jobs:
           fi
       - destroy_green:
           stack_name: "circleciaws"
-          when: on_fail
+        when: on_fail
 
 
 workflows:
