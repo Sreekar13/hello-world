@@ -99,8 +99,8 @@ jobs:
       - run: cat inventory_ec2_t.txt
       - add_ssh_keys:
           fingerprints: 4e:be:10:2c:f9:ab:28:60:a3:fd:51:3b:06:78:ec:cd
-      - run: |
-          echo -e '[defaults]\nhost_key_checking = False' >> ~/ansible.cfg
+      #- run: |
+      #    echo -e '[defaults]\nhost_key_checking = False' >> ~/ansible.cfg
       #- run: |
       #    ec2_ip_address=`cat inventory_ec2.txt | head -2| tail -1` 
           #!/usr/bin/expect 
