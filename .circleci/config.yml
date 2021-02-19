@@ -141,6 +141,7 @@ jobs:
             return 1
           fi
       - destroy_green:
+          stack_name: "circleciaws"
           when: on_fail
 
 
