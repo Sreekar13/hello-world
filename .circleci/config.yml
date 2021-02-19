@@ -117,21 +117,21 @@ jobs:
           command: |
             ansible-playbook -i inventory_ec2_instances.txt main-remote.yml
 
-    somketest:
-      docker:
-        - image: alpine:latest
-      steps:
-        - run: apk add --update curl 
-        - restore_cache:
-            key: inventory_ec2_v1.3
-        - run: |
-            ec2_ip_address=`cat inventory_ec2.txt | head -2| tail -1` 
-            if curl -s --head http://$ec2_ip_address:3000
-            then
-              echo "It worked"
-            else
-              return 1
-            fi
+  somketest:
+    docker:
+      - image: alpine:latest
+    steps:
+      - run: apk add --update curl 
+      - restore_cache:
+          key: inventory_ec2_v1.3
+      - run: |
+          ec2_ip_address=`cat inventory_ec2.txt | head -2| tail -1` 
+          if curl -s --head http://$ec2_ip_address:3000
+          then
+            echo "It worked"
+          else
+            return 1
+          fi
 
 
 workflows:
