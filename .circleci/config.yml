@@ -142,5 +142,5 @@ workflows:
       - create_infrastructure
       - configure_ec2: 
           requires: [create_infrastructure]
-      - somketest
+      - somketest:
           requires: [configure_ec2]
