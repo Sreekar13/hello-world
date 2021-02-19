@@ -81,12 +81,12 @@ jobs:
       - checkout 
       - run: aws cloudformation create-stack --stack-name circleciaws --region us-east-1 --template-body file://EC2Instance-clf-template.yml
       - run: sleep 70
-      - run: echo "[serve]" > inventory_ec2_test.txt
-      - run: aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --output text >> inventory_ec2_test.txt
+      - run: echo "[serve]" > inventory_ec2_t.txt
+      - run: aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --output text >> inventory_ec2_t.txt
       - save_cache:
-          key: inventory_ec2_v1.1
+          key: inventory_ec2_v1.11
           paths:
-            - inventory_ec2_test.txt
+            - inventory_ec2_t.txt
 
   configure_ec2:
     docker: 
@@ -95,12 +95,11 @@ jobs:
       - run: sleep 30
       - checkout
       - restore_cache:
-          key: inventory_ec2_v1.1
-      - run: cat inventory_ec2_test.txt
+          key: inventory_ec2_v1.11
+      - run: cat inventory_ec2_t.txt
       - add_ssh_keys:
           fingerprints: 4e:be:10:2c:f9:ab:28:60:a3:fd:51:3b:06:78:ec:cd
       - run: |
-          echo -e '[defaults]\nhost_key_checking = False' >> /etc/ansible/ansible.cfg
           echo -e '[defaults]\nhost_key_checking = False' >> ~/ansible.cfg
       #- run: |
       #    ec2_ip_address=`cat inventory_ec2.txt | head -2| tail -1` 
@@ -116,7 +115,7 @@ jobs:
       - run: 
           name: Configuring ec2 instance
           command: |
-            ansible-playbook -i inventory_ec2_test.txt main-remote.yml
+            ansible-playbook -i inventory_ec2_t.txt main-remote.yml
 
 
 workflows:
