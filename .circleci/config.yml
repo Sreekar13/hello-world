@@ -100,14 +100,15 @@ jobs:
       - add_ssh_keys:
           fingerprints: 4e:be:10:2c:f9:ab:28:60:a3:fd:51:3b:06:78:ec:cd
       - run: |
-          ec2_ip_address=`cat inventory_ec2.txt | head -2| tail -1` 
+          echo -e '[defaults]\nhost_key_checking = False' >> /etc/ansible/ansible.cfg
+          echo -e '[defaults]\nhost_key_checking = False' >> ~/ansible.cfg
+      #- run: |
+      #    ec2_ip_address=`cat inventory_ec2.txt | head -2| tail -1` 
           #!/usr/bin/expect 
-          set prompt "#|>|\\\$"
-          spawn ssh ec2-user@$ec2_ip_address
-          expect {
-            "(yes/no)" { send "yes\r";exp_continue}
-          }
-          expect -re $prompt
+      #    spawn ssh ec2-user@$ec2_ip_address
+      #    expect {
+      #      "(yes/no)" { send "yes\r";exp_continue}
+      #    }
       - run:
           name: Install ansible dependencies
           command: |
