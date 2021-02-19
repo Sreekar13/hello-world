@@ -140,8 +140,8 @@ jobs:
           else
             return 1
           fi
-      - destroy_green
-        when: on_fail
+      - destroy_green:
+          when: on_fail
 
 
 workflows:
