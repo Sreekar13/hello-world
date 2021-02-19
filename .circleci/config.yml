@@ -140,9 +140,10 @@ jobs:
           else
             return 1
           fi
-      - destroy_green:
-          stack_name: "circleciaws"
-        when: on_fail
+      - when: on_fail
+          steps:
+            - destroy_green:
+                stack_name: "circleciaws"
 
 
 workflows:
