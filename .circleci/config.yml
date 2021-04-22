@@ -18,8 +18,12 @@ commands:
     parameters:
       stack_name: 
         type: string
+        default: circleciaws
     steps:
-      - run: aws cloudformation delete-stack --stack-name parameters.stack_name
+      - run: 
+          name: delete cloudformation stack
+          command: aws cloudformation delete-stack --stack-name parameters.stack_name
+          when_on: fail
 
 node_exec: &node_exec
   docker: 
@@ -140,10 +144,8 @@ jobs:
           else
             return 1
           fi
-      - when: on_fail
-          steps:
-            - destroy_green:
-                stack_name: "circleciaws"
+      - destroy_green:
+          stack_name: "circleciaws"
 
 
 workflows:
